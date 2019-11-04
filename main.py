@@ -1,17 +1,21 @@
-from scapy.all import *
+from traceRoute import tr
+from calTopo import cal_adj_mat
+from drawTopo import draw_topo
 
-hostname = "google.com"
-for i in range(1, 28):
-    pkt = IP(dst=hostname, ttl=i) / UDP(dport=33434)
-    # Send the packet and get a reply
-    reply = sr1(pkt, verbose=0)
-    if reply is None:
-        # No reply =(
-        break
-    elif reply.type == 3:
-        # We've reached our destination
-        print("Done!", reply.src)
-        break
-    else:
-        # We're in the middle somewhere
-        print("%d hops away: " % i , reply.src)
+
+if __name__ == "__main__":
+
+    # 1. traceroute data
+    ip_list = []
+    with open("test_case/camp_ip_list.txt", "r") as f:
+        for line in f.readlines():
+            ip_list.append(line.strip('\n'))
+
+    for ip in ip_list:
+        tr(target=ip)
+
+    # 2. cal adj-matrix
+    vertex, matrix = cal_adj_mat()
+
+    # 3. draw topo
+    draw_topo(vertex, matrix)

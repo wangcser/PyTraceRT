@@ -1,11 +1,42 @@
-import pandas as pd
+import numpy as np
+import os
 
-dfbd = pd.read_csv("trbaidu.csv", header=None, sep='\\s+', names=["hop", "ip", "as"])
-dfqq = pd.read_csv("trtencent.csv", header=None, sep='\\s+', names=["hop", "ip", "as"])
 
-ipset1 = dfbd['ip'].drop_duplicates().to_list()
-ipset2 = dfqq['ip'].drop_duplicates().to_list()
+def cal_adj_mat():
+    # read in raw data as list
+    res = []
+    target_dir = os.walk("RawTopoData/")
+    for path, dir_list, file_list in target_dir:
+        for file_name in file_list:
+            file_path = os.path.join(path, file_name)
+            tmp_res = []
+            with open(file_path, "r") as f:
+                for line in f.readlines():
+                    tmp_res.append(line.strip('\n'))
 
-result = list(set(ipset1).union(set(ipset2)))
+            res.append(tmp_res)
 
-print(result)
+    # cal vertex set:
+    vertex = np.array([])
+    for raw_vec in res:
+        vertex = np.array((list(set(vertex).union(set(np.array(raw_vec))))))
+
+    vertex = np.sort(vertex)
+
+    # cal adj mat
+    n = len(vertex)
+    matrix = np.zeros(shape=(n, n))
+    for raw_vec in res:
+        vec = np.array(raw_vec)
+        for index in range(0, len(raw_vec)-1):
+            i = np.where(vertex==vec[index])
+            j = np.where(vertex==vec[index+1])
+            matrix[i, j] = 1
+
+    print(matrix)
+
+    return vertex, matrix
+
+
+if __name__ == "__main__":
+    cal_adj_mat()

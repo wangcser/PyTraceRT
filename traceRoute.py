@@ -1,12 +1,14 @@
 from scapy.layers.inet import traceroute
+from log import log
 import pprint
+
 
 # refer: https://github.com/secdev/scapy/blob/master/scapy/layers/inet.py
 # refer: https://0xbharath.github.io/art-of-packet-crafting-with-scapy/network_recon/traceroute/index.html
 # we can use tcp-syn, udp, icmp to implement traceroute methods.
 
 
-def tr(target, verbose=0, show=True, store=True):
+def trace_route(target, verbose=0, show=True, store=True):
 
     ans, uans = traceroute(target=target,
                            dport=80,
@@ -21,12 +23,14 @@ def tr(target, verbose=0, show=True, store=True):
     dst = list(route_dict.keys())[0]
     src = route_dict[dst][1][0]
 
+    log.info("trace route from " + src + " to " + dst)
+
     if show:
-        print("src: ", src)
-        print("dst: ", dst)
-        print("route info: \n")
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(route_dict[dst])
+        log.info("route info: ")
+        log.info(route_dict[dst])
+        # pretty display
+        # pp = pprint.PrettyPrinter(indent=4)
+        # pp.pprint(route_dict[dst])
 
     if store:
         file_name = src + "-" + dst
@@ -34,7 +38,7 @@ def tr(target, verbose=0, show=True, store=True):
             for iter in route_dict[dst]:
                 f.write(route_dict[dst][iter][0] + "\n")
 
-        print(file_name + " stored.")
+        log.info(file_name + " stored.")
 
 
 if __name__ == "__main__":
@@ -46,5 +50,6 @@ if __name__ == "__main__":
         "www.cctv.com",
         "www.google.com.hk"
     ]
+
     for ip in ip_list:
-        tr(target=ip)
+        trace_route(target=ip)

@@ -3,10 +3,10 @@ import os
 from log import log
 
 
-def cal_adj_mat():
+def cal_adj_mat(RawDataPath="./RawTopoData/"):
     # read in raw data as list
     res = []
-    target_dir = os.walk("RawTopoData/")
+    target_dir = os.walk(RawDataPath)
 
     for path, dir_list, file_list in target_dir:
         for file_name in file_list:
@@ -32,9 +32,9 @@ def cal_adj_mat():
     matrix = np.zeros(shape=(n, n))
     for raw_vec in res:
         vec = np.array(raw_vec)
-        for index in range(0, len(raw_vec)-1):
+        for index in range(0, len(raw_vec) - 1):
             i = np.where(vertex == vec[index])
-            j = np.where(vertex == vec[index+1])
+            j = np.where(vertex == vec[index + 1])
             matrix[i, j] = 1
 
     log.info("edge cal finished.")

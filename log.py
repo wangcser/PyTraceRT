@@ -1,5 +1,5 @@
 import logging
-import logging.handlers
+import logging
 import time
 
 
@@ -10,7 +10,7 @@ class LOG:
 
         if log_file is None:
             stime = time.strftime("%Y-%m-%d_%H_%M_%S", time.localtime())
-            log_file = "result/tr_" + stime + ".log"
+            log_file = "./result/tr_" + stime + ".log"
         else:
             log_file = log_file
 
@@ -38,4 +38,3 @@ class LOG:
 
 
 log = LOG()
-

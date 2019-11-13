@@ -17,9 +17,9 @@ class LOG:
         self.handler1 = logging.StreamHandler()
         self.handler2 = logging.FileHandler(filename=log_file)
 
-        self.logger.setLevel(logging.DEBUG)
-        self.handler1.setLevel(logging.DEBUG)
-        self.handler2.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.INFO)
+        self.handler1.setLevel(logging.INFO)
+        self.handler2.setLevel(logging.INFO)
 
         self.handler1.setFormatter(formatter)
         self.handler2.setFormatter(formatter)

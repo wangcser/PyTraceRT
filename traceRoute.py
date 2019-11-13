@@ -28,8 +28,7 @@ def trace_route(target, verbose=0, show=True, store=True):
     log.info("trace route from " + src + " to " + dst)
 
     if show:
-        log.info("route info: ")
-        log.info(route_dict[dst])
+        log.debug(route_dict[dst])
         # pp = pprint.PrettyPrinter(indent=4)
         # pp.pprint(route_dict)
 
@@ -39,17 +38,5 @@ def trace_route(target, verbose=0, show=True, store=True):
             for iter in route_dict[dst]:
                 f.write(route_dict[dst][iter][0] + "\n")
 
-        log.info(file_name + " stored.")
+        log.info("route info " + file_name + " stored.")
 
-
-if __name__ == "__main__":
-    ip_list = [
-        "www.uestc.edu.cn",
-        "www.baidu.com",
-        "www.tencent.com",
-        "www.cctv.com",
-        "www.google.com.hk"
-    ]
-
-    for ip in ip_list:
-        trace_route(ip, method='TCP', verbose=0, show=True, store=False)

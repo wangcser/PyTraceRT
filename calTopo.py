@@ -24,11 +24,10 @@ def cal_adj_mat(RawDataPath="./RawTopoData/"):
         vertex = np.array((list(set(vertex).union(set(np.array(raw_vec))))))
 
     vertex = np.sort(vertex)
-    log.info("node cal finished.")
 
     # cal adj mat
     n = len(vertex)
-    log.info("nums of nodes: " + str(n))
+
     matrix = np.zeros(shape=(n, n))
     for raw_vec in res:
         vec = np.array(raw_vec)
@@ -37,11 +36,7 @@ def cal_adj_mat(RawDataPath="./RawTopoData/"):
             j = np.where(vertex == vec[index + 1])
             matrix[i, j] = 1
 
-    log.info("edge cal finished.")
-    log.info("nums of edges: " + str(int(np.sum(matrix))))
+    log.info("adj-Matrix established. nums of edges: " + str(int(np.sum(matrix))) + ", nums of nodes: " + str(n))
 
     return vertex, matrix
 
-
-if __name__ == "__main__":
-    cal_adj_mat()

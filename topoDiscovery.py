@@ -8,36 +8,53 @@ import os
 if __name__ == "__main__":
 
     # pre work: add log config
-    log.info("topo discovery started.")
+    log.info("Topo Discovery task started.")
 
-    log.warning("make sure you have fill the ip list msg in folder ip_list.")
+    log.warning("make sure you have fill the ip list in folder \"./ip_list\".")
 
-    # 1. use traceroute collect route data
-    log.info("start collect route msg.")
+    val = input("Please choose a program function:\n"
+                "   collect and Calculate: input 1\n"
+                "   collect route message: input 2\n"
+                "   calculate Topo graph : input 3\n")
 
-    # read ip list in file
-    ip_list = []
-    with open("./ip_list/inet_ip_list.txt", "r") as f:
-        for line in f.readlines():
-            ip_list.append(line.strip('\n'))
-    log.info("read ip list in file finished, we got " + str(len(ip_list)) + " ips.")
+    if val == '1' or val == '2':
+        # 1. use traceroute module collect route data
+        log.info("start collect route msg.")
 
-    # trace route in ip list
-    for ip in ip_list:
+        # read ip list in file
+        log.info("read ip in path \"./ip_list/inet_ip_list.txt\".")
+        ip_list = []
+        with open("./ip_list/inet_ip_list.txt", "r") as f:
+            for line in f.readlines():
+                ip_list.append(line.strip('\n'))
+        log.info("read ip list finished, got " + str(len(ip_list)) + " ips.")
+
+        # trace route in ip list
+        for ip in ip_list:
+            try:
+                trace_route(target=ip)
+            except ConnectionError:
+                log.warning(ip + " traceroute failed.")
+
+        log.info("all routes collected.")
+
+    if val == '1' or val == '3':
+        # 2. cal topo msg use adj-matrix
+        log.info("start cal topo.")
         try:
-            trace_route(target=ip)
-        except:
-            log.info(ip + "failed.")
+            vertex, matrix = cal_adj_mat()
+        except IOError:
+            log.warning("please check out input data!")
 
-    log.info("all routes msg collected.")
+        # 3. draw topo
+        log.info("start draw topo graph.")
+        try:
+            draw_topo(vertex, matrix)
+        except EnvironmentError:
+            log.warning("please check out draw-related modules!")
 
-    # 2. cal topo msg use adj-matrix
-    log.info("start cal topo msg.")
-    vertex, matrix = cal_adj_mat()
-
-    # 3. draw topo
-    log.info("start draw topo graph.")
-    draw_topo(vertex, matrix)
+    log.info("task finished.")
 
     os.system("pause")
+
 

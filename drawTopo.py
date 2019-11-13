@@ -23,6 +23,7 @@ def draw_topo(vertex, matrix, fig_path="./result/result.png"):
 
     plt.savefig(fig_path, dpi=500)
     log.info("result saved as: " + fig_path)
+    log.info("log-file saved as: tr_Y-M-D_H_M_S.log")
 
-    # print(json_graph.node_link_data(G))
+    log.info("result raw data saved as: result.gml")
     nx.write_gml(G, "./result/result.gml")

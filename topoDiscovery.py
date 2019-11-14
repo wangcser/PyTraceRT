@@ -1,3 +1,7 @@
+import warnings
+
+warnings.filterwarnings("ignore") # ignore matplotlib warnings
+
 from traceRoute import trace_route
 from calTopo import cal_adj_mat
 from drawTopo import draw_topo
@@ -10,12 +14,10 @@ if __name__ == "__main__":
     # pre work: add log config
     log.info("Topo Discovery task started.")
 
-    log.warning("make sure you have fill the ip list in folder \"./ip_list\".")
-
     val = input("Please choose a program function:\n"
-                "   collect and Calculate: input 1\n"
+                "   collect and calculate: input 1\n"
                 "   collect route message: input 2\n"
-                "   calculate Topo graph : input 3\n")
+                "   calculate topo graph : input 3\n")
 
     if val == '1' or val == '2':
         # 1. use traceroute module collect route data

@@ -20,13 +20,9 @@
 - [x] 为程序设计一个图标
 - [ ] 优化：优化交付软件的体积
 
-## Functions to be discussed
-
-- 是否需要一个 GUI 界面
-
-## Use Case
-
 ## Manual
+
+>  详见 manual.md
 
 ## Design
 
@@ -47,8 +43,6 @@ result/ -- 存储探测结果和程序运行的日志
 test_case/ -- 软件的输入数据，存放探测用的 ip 地址集合（以 list 方式写入）
 ```
 
-
-
 ## Methods
 
 本项目用于探测并可视化给定局域网的拓扑信息，工作流程如下：
@@ -62,35 +56,13 @@ test_case/ -- 软件的输入数据，存放探测用的 ip 地址集合（以 l
 3. 因此，点对点的 traceroute 模块会是本项目的核心模块
 4. 重复上述过程，得到源节点到目的节点组的所有 route 信息，然后持久化并写入日志
 5. 值得注意的是，可以通过 scapy 实现多种 traceroute，需要解析其返回的状态码和各种方案的使用，以此来增强程序的健壮性
-### Scapy State Code
-- SA:SYN-ACK
-- RA:RST-ACK
-
-TCP标记和他们的意义如下所列：
-
-* F : FIN - 结束; 结束会话
-* S : SYN - 同步; 表示开始会话请求
-* R : RST - 复位;中断一个连接
-* P : PUSH - 推送; 数据包立即发送
-* A : ACK - 应答
-* U : URG - 紧急
-* E : ECE - 显式拥塞提醒回应
-* W : CWR - 拥塞窗口减少
-
-```
-icmptypes = 11: "time-exceeded"
-```
-
-ICMP 11: Time-Exceeed
-
 ## 2. Marge and Cal route message
 1. we have 1 node to others route messages, and many this type messages need to be marged.
 2. use graph and matrix methods to marge these route info.
 3. 这里使用矩阵法，首先合并所有的 ip 地址，然后使用邻接矩阵标记即可
-## 3. draw topo graph and tag labels
+## 3. Draw topo graph and tag labels
 1. use lab to draw related info.
 
-## TraceRoute
 # 多种 Trace Route 方案对比 
 本项目测试了三种 traceroute 方法，现在对其效果总结如下。
 TraceRoute 的本质在于在源节点到目的节点的报文上，通过在 IP 层设置不同的 TTL，利用 ICMP 协议对 TTL 超时的不同处理方式来获取沿途的路由信息。因此，通过选择不同的报文就能得到不同的 traceRoute 方法。
@@ -112,3 +84,34 @@ TraceRoute 的本质在于在源节点到目的节点的报文上，通过在 IP
 使用 UDP 协议封装的 TraceRoute，IP 层之上是 UDP 协议
 
 由于目的主机可能不会响应 UDP 报文，因此依然存在收不到最后一个报文的问题
+
+## 其他问题
+
+### Scapy State Code
+
+- SA:SYN-ACK
+- RA:RST-ACK
+
+TCP标记和他们的意义如下所列：
+
+* F : FIN - 结束; 结束会话
+* S : SYN - 同步; 表示开始会话请求
+* R : RST - 复位;中断一个连接
+* P : PUSH - 推送; 数据包立即发送
+* A : ACK - 应答
+* U : URG - 紧急
+* E : ECE - 显式拥塞提醒回应
+* W : CWR - 拥塞窗口减少
+
+```
+icmptypes = 11: "time-exceeded"
+```
+
+ICMP 11: Time-Exceeed
+
+### pyinstaller 发布脚本
+
+```python
+pyinstaller topoDiscovery.py --onefile -i topo.ico
+```
+

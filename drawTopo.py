@@ -2,6 +2,12 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from log import log
 
+import matplotlib as mpl
+
+mpl.use('Agg')
+
+log.info(mpl.get_backend())
+
 
 def draw_topo(vertex, matrix, fig_path="./result/result.png"):
     G = nx.Graph()

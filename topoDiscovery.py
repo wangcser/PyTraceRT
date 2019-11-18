@@ -1,6 +1,6 @@
 import warnings
 
-warnings.filterwarnings("ignore") # ignore matplotlib warnings
+warnings.filterwarnings("ignore")   # ignore matplotlib warnings
 
 from traceRoute import trace_route
 from calTopo import cal_adj_mat

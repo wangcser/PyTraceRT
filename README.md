@@ -115,3 +115,32 @@ ICMP 11: Time-Exceeed
 pyinstaller topoDiscovery.py --onefile -i topo.ico
 ```
 
+## DeBUG
+
+**以一种访问权限不允许的方式做了一个访问套接字的尝试**
+
+这种错误是两种方面的原因，1：查看使用的端口是福被占用， 解决方法：cmd  ->  netstat -ano即可查看端口是否被占用，如果被占用，则修改端口。2：程序权限不够。解决办法：如果是在VS编程中，则让VS以管理员的方式启动，则不会报Socket错误，生成的应用程序也需要以管理员启动。
+
+**windows native L3 raw socket are only usable as administrator**
+
+>  https://stackoverflow.com/questions/22573894/how-to-workaround-the-limitations-on-raw-sockets-under-windows-7 
+
+After Windows XP Service Pack 1, the ability to send raw sockets has been disabled, however you can still read them.
+
+You can modify the source code example provided by Microsoft in the WDK to enable raw sends again. For more information, check the link.
+
+[PCAUSA - How To Access To NIC Drivers From A Win32 Application](https://web.archive.org/web/20151121110106/http://www.rawether.net:80/product/tour02.htm)
+
+Alternatively, you may use WinPcap to inject packets into the network.
+
+[WinPcap](http://www.winpcap.org/)
+
+**cannot mix incompatible Qt library**
+
+计算机已有的 Qt 库和程序使用的 Qt 库版本不兼容
+
+- 删除计算机上的动态 Qt 库
+
+打包比较大的问题
+
+需要选择一个纯净的 Python 环境重新打包即可

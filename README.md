@@ -18,7 +18,7 @@
 - [x] 基础：完成软件的使用文档，介绍原理和使用方法以及如何对结果进行分析
 - [x] 优化：完成 README 文档和设计文档，介绍工具的设计和运作机制
 - [x] 为程序设计一个图标
-- [ ] 优化：优化交付软件的体积
+- [ ] 优化：优化交付软件的体积【需要重新建立新的 python 环境】
 
 ## Manual
 
@@ -115,7 +115,7 @@ ICMP 11: Time-Exceeed
 pyinstaller topoDiscovery.py --onefile -i topo.ico
 ```
 
-## DeBUG
+## DEBUG
 
 **以一种访问权限不允许的方式做了一个访问套接字的尝试**
 
@@ -139,7 +139,7 @@ Alternatively, you may use WinPcap to inject packets into the network.
 
 计算机已有的 Qt 库和程序使用的 Qt 库版本不兼容
 
-- 删除计算机上的动态 Qt 库
+使用其他非交互式的 matplotlib 后端
 
 打包比较大的问题
 
